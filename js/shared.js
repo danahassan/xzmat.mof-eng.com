@@ -66,11 +66,25 @@ function renderSidebar(activePage) {
     </div>
   `;
 
+  /* sidebar overlay */
+  let overlay = document.getElementById('sidebar-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'sidebar-overlay';
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
+  }
+  overlay.onclick = () => {
+    document.getElementById('sidebar').classList.remove('open');
+    overlay.classList.remove('visible');
+  };
+
   /* mobile toggle */
   const toggle = document.getElementById('menu-toggle');
   if (toggle) {
     toggle.addEventListener('click', () => {
       document.getElementById('sidebar').classList.toggle('open');
+      overlay.classList.toggle('visible');
     });
   }
 }
@@ -150,6 +164,26 @@ function renderPagination(container, paged, onChange) {
       <div class="pagination-btns">${btns}</div>
     </div>`;
   container.querySelectorAll('.page-btn').forEach(b => b.addEventListener('click', () => onChange(+b.dataset.p)));
+}
+
+/* ─── Excel Export ──────────────────────── */
+
+function exportToExcel(headers, rows, filename) {
+  function doExport() {
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+    ws['!cols'] = headers.map((h, i) => ({
+      wch: Math.max(h.length + 2, ...rows.map(r => String(r[i] ?? '').length), 10)
+    }));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data');
+    XLSX.writeFile(wb, filename + '_' + new Date().toISOString().slice(0, 10) + '.xlsx');
+    toast('Excel file exported.');
+  }
+  if (typeof XLSX !== 'undefined') { doExport(); return; }
+  const s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  s.onload = doExport;
+  document.head.appendChild(s);
 }
 
 /* ─── Table empty state ─────────────────── */

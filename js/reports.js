@@ -221,3 +221,28 @@ function quickExport(type) {
   doc.save(`xzmat-${type}-${new Date().toISOString().slice(0,10)}.pdf`);
   toast('PDF exported successfully.');
 }
+
+function quickExcel(type) {
+  const benes = beneGetAll();
+  const dists = distGetAll();
+  const dons  = donGetAll();
+  const stypes = stGetAll();
+
+  if (type === 'beneficiaries') {
+    const headers = ['Name (English)', 'Name (Kurdish)', 'National ID', 'Phone', 'Area', 'City', 'Marital', 'Dependents', 'Income (IQD)', 'Health', 'Status', 'Reg. Date'];
+    const rows = benes.map(b => [b.nameEn, b.nameKu, b.nationalId, b.phone, b.area, b.city, b.marital, b.dependents, b.income, b.health, b.status, b.regDate]);
+    exportToExcel(headers, rows, 'beneficiaries');
+  } else if (type === 'distributions') {
+    const headers = ['Date', 'Beneficiary (EN)', 'Beneficiary (KU)', 'Support Type', 'Qty', 'Value (IQD)', 'Donor', 'Notes'];
+    const rows = dists.sort((a,b) => b.date.localeCompare(a.date)).map(d => {
+      const bn = benes.find(x => x.id === d.beneficiaryId);
+      const st = stypes.find(x => x.id === d.supportTypeId);
+      return [d.date, bn ? bn.nameEn : '—', bn ? bn.nameKu : '—', st ? st.name : '—', d.qty, d.value, d.donor || '', d.notes || ''];
+    });
+    exportToExcel(headers, rows, 'distributions');
+  } else if (type === 'donations') {
+    const headers = ['Date', 'Donor', 'Amount (IQD)', 'Method', 'Reference', 'Purpose', 'Status'];
+    const rows = dons.sort((a,b) => b.date.localeCompare(a.date)).map(d => [d.date, d.donor, d.amount, d.method, d.ref || '', d.purpose || '', d.status]);
+    exportToExcel(headers, rows, 'donations');
+  }
+}

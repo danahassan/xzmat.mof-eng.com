@@ -345,5 +345,12 @@ function deleteBene(id, name) {
   });
 }
 
+function exportExcel() {
+  const filtered = getFiltered();
+  const headers = ['Name (English)', 'Name (Kurdish)', 'National ID', 'Phone', 'Phone 2', 'Area', 'City', 'Marital', 'Dependents', 'Income (IQD)', 'Rent (IQD)', 'Expenses (IQD)', 'Health', 'Status', 'Reg. Date'];
+  const rows = filtered.map(b => [b.nameEn, b.nameKu, b.nationalId, b.phone, b.phone2, b.area, b.city, b.marital, b.dependents, b.income, b.rent, b.expenses, b.health, b.status, b.regDate]);
+  exportToExcel(headers, rows, 'beneficiaries');
+}
+
 renderStats();
 renderTable();

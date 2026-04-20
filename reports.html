@@ -53,22 +53,19 @@
           <div class="card-header">
             <span class="card-title"><i class="fa-solid fa-bolt"></i> Quick Exports</span>
           </div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <button class="btn btn-ghost" onclick="quickExport('all-beneficiaries')">
-              <i class="fa-solid fa-users"></i> All Beneficiaries
-            </button>
-            <button class="btn btn-ghost" onclick="quickExport('active-beneficiaries')">
-              <i class="fa-solid fa-circle-check text-success"></i> Active Beneficiaries Only
-            </button>
-            <button class="btn btn-ghost" onclick="quickExport('distributions')">
-              <i class="fa-solid fa-boxes-stacked"></i> Distribution Records
-            </button>
-            <button class="btn btn-ghost" onclick="quickExport('donations')">
-              <i class="fa-solid fa-hand-holding-dollar"></i> Donations Ledger
-            </button>
-            <button class="btn btn-ghost" onclick="quickExport('summary')">
-              <i class="fa-solid fa-chart-pie"></i> Program Summary
-            </button>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em">PDF</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px">
+            <button class="btn btn-ghost" onclick="quickExport('all-beneficiaries')"><i class="fa-solid fa-users"></i> All Beneficiaries</button>
+            <button class="btn btn-ghost" onclick="quickExport('active-beneficiaries')"><i class="fa-solid fa-circle-check text-success"></i> Active Beneficiaries Only</button>
+            <button class="btn btn-ghost" onclick="quickExport('distributions')"><i class="fa-solid fa-boxes-stacked"></i> Distribution Records</button>
+            <button class="btn btn-ghost" onclick="quickExport('donations')"><i class="fa-solid fa-hand-holding-dollar"></i> Donations Ledger</button>
+            <button class="btn btn-ghost" onclick="quickExport('summary')"><i class="fa-solid fa-chart-pie"></i> Program Summary</button>
+          </div>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em">Excel</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-ghost" onclick="quickExcel('beneficiaries')"><i class="fa-solid fa-file-excel text-success"></i> All Beneficiaries</button>
+            <button class="btn btn-ghost" onclick="quickExcel('distributions')"><i class="fa-solid fa-file-excel text-success"></i> Distribution Records</button>
+            <button class="btn btn-ghost" onclick="quickExcel('donations')"><i class="fa-solid fa-file-excel text-success"></i> Donations Ledger</button>
           </div>
         </div>
       </div>

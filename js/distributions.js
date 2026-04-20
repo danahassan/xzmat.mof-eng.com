@@ -184,5 +184,20 @@ function deleteDist(id) {
   });
 }
 
+function exportExcel() {
+  const filtered = getFiltered();
+  const benes = beneGetAll();
+  const types = stGetAll();
+  const users = usersGetAll();
+  const headers = ['Date', 'Beneficiary (EN)', 'Beneficiary (KU)', 'Support Type', 'Qty', 'Value (IQD)', 'Donor', 'Notes', 'Recorded By'];
+  const rows = filtered.map(d => {
+    const b = benes.find(x => x.id === d.beneficiaryId);
+    const st = types.find(x => x.id === d.supportTypeId);
+    const u = users.find(x => x.id === d.recordedBy);
+    return [d.date, b ? b.nameEn : '—', b ? b.nameKu : '—', st ? st.name : '—', d.qty, d.value, d.donor || '', d.notes || '', u ? u.name : '—'];
+  });
+  exportToExcel(headers, rows, 'distributions');
+}
+
 renderStats();
 renderTable();

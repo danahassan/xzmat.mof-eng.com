@@ -152,5 +152,12 @@ function deleteDon(id, donor) {
   });
 }
 
+function exportExcel() {
+  const filtered = getFiltered();
+  const headers = ['Date', 'Donor', 'Amount (IQD)', 'Method', 'Reference', 'Purpose', 'Status'];
+  const rows = filtered.map(d => [d.date, d.donor, d.amount, d.method, d.ref || '', d.purpose || '', d.status]);
+  exportToExcel(headers, rows, 'donations');
+}
+
 renderStats();
 renderTable();

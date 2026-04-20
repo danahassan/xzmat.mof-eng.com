@@ -119,5 +119,16 @@ function deleteType(id, name) {
   });
 }
 
+function exportExcel() {
+  const dists = distGetAll();
+  const headers = ['Icon', 'Name', 'Category', 'Unit Value (IQD)', 'Description', 'Distribution Count', 'Total Value (IQD)'];
+  const rows = stGetAll().map(t => {
+    const count = dists.filter(d => d.supportTypeId === t.id).length;
+    const total = dists.filter(d => d.supportTypeId === t.id).reduce((s, d) => s + d.value, 0);
+    return [t.icon, t.name, t.category, t.value, t.desc, count, total];
+  });
+  exportToExcel(headers, rows, 'support-types');
+}
+
 renderStats();
 renderTable();
