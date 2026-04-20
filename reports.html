@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports — XZMAT</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar"></aside>
+  <main id="main">
+    <header class="page-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
+        <h1><i class="fa-solid fa-file-chart-column" style="color:var(--primary);margin-right:8px"></i>Reports &amp; Export</h1>
+      </div>
+    </header>
+    <div class="page-content">
+      <div class="two-col">
+        <!-- Custom Report Builder -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i class="fa-solid fa-sliders"></i> Custom Report</span>
+          </div>
+          <div class="form-group">
+            <label>Report Type</label>
+            <select id="report-type" onchange="updateFields()">
+              <option value="beneficiaries">Beneficiaries</option>
+              <option value="distributions">Distributions</option>
+              <option value="donations">Donations</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status Filter</label>
+            <select id="report-status">
+              <option value="">All</option>
+              <option value="active">Active only</option>
+              <option value="pending">Pending only</option>
+            </select>
+          </div>
+          <div id="field-checkboxes" style="margin-bottom:16px"></div>
+          <button class="btn btn-primary" style="width:100%" onclick="generatePDF()">
+            <i class="fa-solid fa-file-pdf"></i> Generate PDF
+          </button>
+        </div>
+
+        <!-- Quick Exports -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i class="fa-solid fa-bolt"></i> Quick Exports</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <button class="btn btn-ghost" onclick="quickExport('all-beneficiaries')">
+              <i class="fa-solid fa-users"></i> All Beneficiaries
+            </button>
+            <button class="btn btn-ghost" onclick="quickExport('active-beneficiaries')">
+              <i class="fa-solid fa-circle-check text-success"></i> Active Beneficiaries Only
+            </button>
+            <button class="btn btn-ghost" onclick="quickExport('distributions')">
+              <i class="fa-solid fa-boxes-stacked"></i> Distribution Records
+            </button>
+            <button class="btn btn-ghost" onclick="quickExport('donations')">
+              <i class="fa-solid fa-hand-holding-dollar"></i> Donations Ledger
+            </button>
+            <button class="btn btn-ghost" onclick="quickExport('summary')">
+              <i class="fa-solid fa-chart-pie"></i> Program Summary
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="toast-container"></div>
+<script src="js/data.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/reports.js"></script>
+</body>
+</html>

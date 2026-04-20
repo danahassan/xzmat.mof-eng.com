@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Types — XZMAT</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar"></aside>
+  <main id="main">
+    <header class="page-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
+        <h1><i class="fa-solid fa-hand-holding-heart" style="color:var(--primary);margin-right:8px"></i>Support Types</h1>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary" onclick="openForm()">
+          <i class="fa-solid fa-plus"></i> Add Type
+        </button>
+      </div>
+    </header>
+    <div class="page-content">
+      <div class="stat-grid" id="stat-grid"></div>
+      <div class="card">
+        <div class="toolbar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search" placeholder="Search support types…" oninput="renderTable()">
+          </div>
+          <select class="filter-select" id="cat-filter" onchange="renderTable()">
+            <option value="">All Categories</option>
+            <option>Food</option><option>Cash</option><option>Clothing</option>
+            <option>Shelter</option><option>Medical</option><option>Education</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Icon</th><th>Name</th><th>Category</th>
+                <th>Unit Value (IQD)</th><th>Description</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="toast-container"></div>
+<script src="js/data.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/support-types.js"></script>
+</body>
+</html>

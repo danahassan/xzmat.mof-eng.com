@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — XZMAT</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar"></aside>
+  <main id="main">
+    <header class="page-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
+        <h1><i class="fa-solid fa-gear" style="color:var(--primary);margin-right:8px"></i>Settings</h1>
+      </div>
+    </header>
+    <div class="page-content">
+      <div class="two-col">
+        <!-- Organization Settings -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i class="fa-solid fa-building"></i> Organization</span>
+          </div>
+          <form id="org-form">
+            <div class="form-group">
+              <label>Organization Name</label>
+              <input type="text" name="orgName" id="orgName">
+            </div>
+            <div class="form-group">
+              <label>Portal Domain</label>
+              <input type="text" name="domain" id="domain">
+            </div>
+            <div class="form-group">
+              <label>Contact Email</label>
+              <input type="email" name="email" id="email">
+            </div>
+            <div class="form-group">
+              <label>Currency</label>
+              <select name="currency" id="currency">
+                <option value="IQD">IQD — Iraqi Dinar</option>
+                <option value="USD">USD — US Dollar</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="saveOrg()">
+              <i class="fa-solid fa-floppy-disk"></i> Save Changes
+            </button>
+          </form>
+        </div>
+
+        <!-- User Accounts -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i class="fa-solid fa-users-gear"></i> User Accounts</span>
+          </div>
+          <div id="user-list"></div>
+          <hr class="divider">
+          <div class="card-header" style="margin-bottom:0">
+            <span class="card-title" style="font-size:.85rem">Data Management</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+            <button class="btn btn-ghost" onclick="resetData()">
+              <i class="fa-solid fa-rotate-left text-warning"></i> Reset to Seed Data
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="toast-container"></div>
+<script src="js/data.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — XZMAT</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar"></aside>
+  <main id="main">
+    <header class="page-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
+        <h1><i class="fa-solid fa-gauge" style="color:var(--primary);margin-right:8px"></i>Dashboard</h1>
+      </div>
+      <div class="header-actions" id="header-date"></div>
+    </header>
+    <div class="page-content">
+      <div class="stat-grid" id="stat-grid"></div>
+      <div class="two-col" style="gap:20px">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i class="fa-solid fa-users"></i> Recent Beneficiaries</span>
+            <a href="beneficiaries.html" class="btn btn-ghost btn-sm">View All</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Area</th><th>Status</th><th>Reg. Date</th></tr></thead>
+              <tbody id="bene-table"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title"><i class="fa-solid fa-hand-holding-dollar"></i> Recent Donations</span>
+            <a href="donations.html" class="btn btn-ghost btn-sm">View All</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Donor</th><th>Amount</th><th>Method</th></tr></thead>
+              <tbody id="don-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <div class="card-header">
+          <span class="card-title"><i class="fa-solid fa-chart-bar"></i> Monthly Distributions</span>
+        </div>
+        <div class="chart-wrap"><canvas id="dist-chart"></canvas></div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="toast-container"></div>
+<script src="js/data.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
