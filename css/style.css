@@ -868,6 +868,14 @@ select option { background: var(--surface2); }
   z-index: 199;
 }
 
+/* Profile modal mini stats (4-col grid) */
+.modal-stat-mini {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 768px) {
   .sidebar-overlay.visible { display: block; }
 
@@ -880,19 +888,27 @@ select option { background: var(--surface2); }
   }
 
   /* Tighter page header */
-  .page-header { padding: 0 14px; gap: 8px; }
-  .page-header h1 { font-size: 1rem; }
+  .page-header { padding: 0 14px; }
+  .page-header h1 { font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Hide long date text in dashboard header */
+  #header-date { display: none; }
 
   /* Card padding */
   .card { padding: 14px; }
 
-  /* Page content bottom padding for thumb reach */
+  /* Page content */
   .page-content { padding: 14px 14px 32px; }
 
   /* Toolbar vertical stack */
   .toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
-  .filter-select { width: 100%; }
+  .filter-select,
+  .toolbar input[type="date"] { width: 100%; }
   .toolbar .btn { justify-content: center; }
+
+  /* Scrollable tabs — prevent tab overflow in modals */
+  .tab-nav { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+  .tab-btn { white-space: nowrap; flex-shrink: 0; }
 
   /* Stat grid two columns */
   .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
@@ -903,7 +919,7 @@ select option { background: var(--surface2); }
 
   /* Touch-friendly table scroll */
   .table-wrap { -webkit-overflow-scrolling: touch; }
-  table { min-width: 560px; }
+  table { min-width: 520px; }
 
   /* Pagination */
   .pagination { flex-direction: column; align-items: center; gap: 10px; }
@@ -917,11 +933,12 @@ select option { background: var(--surface2); }
   .modal-footer { padding: 12px 16px; flex-wrap: wrap; }
   .modal-footer .btn { flex: 1; justify-content: center; }
 
-  /* Detail grid single col */
+  /* Detail & form grids single col */
   .detail-grid { grid-template-columns: 1fr; }
-
-  /* Form row single col on small screens */
   .form-row { grid-template-columns: 1fr; }
+
+  /* Profile modal 4-col mini stats → 2-col */
+  .modal-stat-mini { grid-template-columns: 1fr 1fr; }
 
   /* Hide less critical table columns */
   .col-hide-mobile { display: none; }
@@ -930,8 +947,17 @@ select option { background: var(--surface2); }
   #sidebar .brand { font-size: .95rem; }
 }
 
+@media (max-width: 640px) {
+  /* Hide button text in header actions to prevent overflow */
+  .header-actions .btn span { display: none; }
+  .header-actions .btn { padding: 8px 11px; }
+}
+
 @media (max-width: 420px) {
   .stat-grid { grid-template-columns: 1fr 1fr; }
-  .page-header .btn span { display: none; }
   .stat-card { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* Toast full-width on tiny screens */
+  #toast-container { right: 12px; left: 12px; bottom: 16px; }
+  .toast { min-width: unset; width: 100%; max-width: 100%; }
 }

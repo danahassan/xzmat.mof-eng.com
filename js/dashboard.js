@@ -39,9 +39,9 @@ const recentBenes = [...benes].sort((a,b) => b.regDate.localeCompare(a.regDate))
 document.getElementById('bene-table').innerHTML = recentBenes.map(b => `
   <tr>
     <td><span class="rtl">${b.nameKu}</span><br><span class="text-muted" style="font-size:.78rem">${b.nameEn}</span></td>
-    <td>${b.area}</td>
+    <td class="col-hide-mobile">${b.area}</td>
     <td>${statusBadge(b.status)}</td>
-    <td>${fmtDate(b.regDate)}</td>
+    <td class="col-hide-mobile">${fmtDate(b.regDate)}</td>
   </tr>`).join('') || emptyRow(4);
 
 /* ── Donations Table ────────────────────── */
@@ -50,7 +50,7 @@ document.getElementById('don-table').innerHTML = recentDons.map(d => `
   <tr>
     <td>${d.donor}</td>
     <td class="text-success fw-600">${fmtIQD(d.amount)}</td>
-    <td><span class="badge badge-primary">${d.method}</span></td>
+    <td class="col-hide-mobile"><span class="badge badge-primary">${d.method}</span></td>
   </tr>`).join('') || emptyRow(3);
 
 /* ── Monthly Distribution Chart ────────── */

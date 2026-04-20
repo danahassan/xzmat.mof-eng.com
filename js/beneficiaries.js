@@ -61,15 +61,15 @@ function renderTable() {
         const distCount = dists.filter(d => d.beneficiaryId === b.id).length;
         const canDelete = user.role === 'admin';
         return `<tr>
-          <td class="text-muted" style="font-size:.8rem">${(currentPage-1)*PER_PAGE + i + 1}</td>
+          <td class="text-muted col-hide-mobile" style="font-size:.8rem">${(currentPage-1)*PER_PAGE + i + 1}</td>
           <td>
             <div class="rtl fw-600">${b.nameKu}</div>
             <div class="text-muted" style="font-size:.78rem">${b.nameEn}</div>
           </td>
           <td>${b.phone}</td>
-          <td>${b.area}</td>
-          <td>${b.dependents} dep. · <span class="text-muted">${b.marital}</span></td>
-          <td>${b.income > 0 ? fmtNum(b.income) : '<span class="text-danger">No income</span>'}</td>
+          <td class="col-hide-mobile">${b.area}</td>
+          <td class="col-hide-mobile">${b.dependents} dep. · <span class="text-muted">${b.marital}</span></td>
+          <td class="col-hide-mobile">${b.income > 0 ? fmtNum(b.income) : '<span class="text-danger">No income</span>'}</td>
           <td>${statusBadge(b.status)}</td>
           <td>
             <div style="display:flex;gap:6px">
@@ -126,7 +126,7 @@ function openProfile(id) {
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
       <div class="modal-body">
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+        <div class="modal-stat-mini">
           <div class="stat-card" style="flex-direction:column;align-items:flex-start;gap:4px;padding:14px">
             <div class="text-muted" style="font-size:.75rem">Aid Items</div>
             <div class="stat-value" style="font-size:1.3rem">${dists.length}</div>

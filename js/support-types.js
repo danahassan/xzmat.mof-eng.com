@@ -40,8 +40,8 @@ function renderTable() {
           <td style="font-size:1.4rem">${t.icon}</td>
           <td class="fw-600">${t.name}</td>
           <td><span class="badge ${CAT_COLORS[t.category]||'badge-muted'}">${t.category}</span></td>
-          <td class="text-success fw-600">${fmtIQD(t.value)}</td>
-          <td class="text-muted">${t.desc}</td>
+          <td class="text-success fw-600 col-hide-mobile">${fmtIQD(t.value)}</td>
+          <td class="text-muted col-hide-mobile">${t.desc}</td>
           <td>
             <div style="display:flex;gap:6px">
               <button class="btn btn-ghost btn-sm btn-icon" onclick="openForm('${t.id}')"><i class="fa-solid fa-pen"></i></button>

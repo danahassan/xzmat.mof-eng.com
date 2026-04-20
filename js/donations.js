@@ -56,9 +56,9 @@ function renderTable() {
         <td>${fmtDate(d.date)}</td>
         <td class="fw-600">${d.donor}</td>
         <td class="text-success fw-600">${fmtIQD(d.amount)}</td>
-        <td><span class="badge ${METHOD_BADGE[d.method]||'badge-muted'}"><i class="fa-solid ${METHOD_ICON[d.method]||'fa-circle'}"></i> ${d.method}</span></td>
-        <td class="text-muted" style="font-size:.8rem">${d.ref||'—'}</td>
-        <td class="text-muted">${d.purpose||'—'}</td>
+        <td class="col-hide-mobile"><span class="badge ${METHOD_BADGE[d.method]||'badge-muted'}"><i class="fa-solid ${METHOD_ICON[d.method]||'fa-circle'}"></i> ${d.method}</span></td>
+        <td class="text-muted col-hide-mobile" style="font-size:.8rem">${d.ref||'—'}</td>
+        <td class="text-muted col-hide-mobile">${d.purpose||'—'}</td>
         <td>${statusBadge(d.status)}</td>
         <td>
           <div style="display:flex;gap:6px">

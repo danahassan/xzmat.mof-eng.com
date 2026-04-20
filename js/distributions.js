@@ -74,10 +74,10 @@ function renderTable() {
             ${b ? `<div class="rtl fw-600" style="font-size:.85rem">${b.nameKu}</div><div class="text-muted" style="font-size:.78rem">${b.nameEn}</div>` : '<span class="text-muted">Unknown</span>'}
           </td>
           <td>${st ? st.icon + ' ' + st.name : '—'}</td>
-          <td>${d.qty}</td>
+          <td class="col-hide-mobile">${d.qty}</td>
           <td class="text-success fw-600">${fmtIQD(d.value)}</td>
-          <td>${d.donor||'—'}</td>
-          <td class="text-muted" style="font-size:.8rem">${u ? u.name : '—'}</td>
+          <td class="col-hide-mobile">${d.donor||'—'}</td>
+          <td class="text-muted col-hide-mobile" style="font-size:.8rem">${u ? u.name : '—'}</td>
           <td>
             <div style="display:flex;gap:6px">
               <button class="btn btn-ghost btn-sm btn-icon" onclick="openForm('${d.id}')"><i class="fa-solid fa-pen"></i></button>
