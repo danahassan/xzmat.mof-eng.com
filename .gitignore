@@ -1,0 +1,29 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Cloud sync noise
+OneDrive/
+**/Personal/
+
+# Dependencies / build
+node_modules/
+dist/
+build/
+*.log
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Unfinished scaffold (re-add when ready)
+frontend/
+
+# Temp
+tmp/
+*.tmp
