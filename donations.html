@@ -12,16 +12,16 @@
   <aside id="sidebar"></aside>
   <main id="main">
     <header class="page-header">
-      <div style="display:flex;align-items:center;gap:12px">
-        <button id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
-        <h1><i class="fa-solid fa-hand-holding-dollar" style="color:var(--primary);margin-right:8px"></i>Donations</h1>
+      <div class="page-header__title-group">
+        <button id="menu-toggle"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+        <h1><i class="fa-solid fa-hand-holding-dollar" aria-hidden="true" style="color:var(--primary);margin-right:8px"></i>Donations</h1>
       </div>
       <div class="header-actions">
         <button class="btn btn-success" onclick="exportExcel()">
-          <i class="fa-solid fa-file-excel"></i> <span>Export Excel</span>
+          <i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Export Excel</span>
         </button>
         <button class="btn btn-primary" onclick="openForm()">
-          <i class="fa-solid fa-plus"></i> <span>Record Donation</span>
+          <i class="fa-solid fa-plus" aria-hidden="true"></i> <span>Record Donation</span>
         </button>
       </div>
     </header>
@@ -30,7 +30,7 @@
       <div class="card">
         <div class="toolbar">
           <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
             <input type="text" id="search" placeholder="Search donor, reference…" oninput="render()">
           </div>
           <select class="filter-select" id="method-filter" onchange="render()">

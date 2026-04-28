@@ -8,53 +8,61 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to main content</a>
 <div id="app">
   <aside id="sidebar"></aside>
   <main id="main">
     <header class="page-header">
-      <div style="display:flex;align-items:center;gap:12px">
-        <button id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
-        <h1><i class="fa-solid fa-users" style="color:var(--primary);margin-right:8px"></i>Beneficiaries</h1>
+      <div class="page-header__title-group">
+        <button id="menu-toggle"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+        <h1><i class="fa-solid fa-users" aria-hidden="true" style="color:var(--primary);margin-right:8px"></i>Beneficiaries</h1>
       </div>
       <div class="header-actions">
-        <button class="btn btn-success" onclick="exportExcel()">
-          <i class="fa-solid fa-file-excel"></i> <span>Export Excel</span>
+        <button class="btn btn-success" id="btn-export" aria-label="Export beneficiaries to Excel">
+          <i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Export Excel</span>
         </button>
-        <button class="btn btn-primary" onclick="openForm()">
-          <i class="fa-solid fa-plus"></i> <span>Add Beneficiary</span>
+        <button class="btn btn-primary" id="btn-add" aria-label="Add new beneficiary">
+          <i class="fa-solid fa-plus" aria-hidden="true"></i> <span>Add Beneficiary</span>
         </button>
       </div>
     </header>
     <div class="page-content">
       <div class="stat-grid" id="stat-grid"></div>
       <div class="card">
-        <div class="toolbar">
+        <div class="toolbar" role="search">
           <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="search" placeholder="Search name, phone, area…" oninput="render()">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <label for="search" class="sr-only">Search beneficiaries</label>
+            <input type="text" id="search" placeholder="Search name, phone, area…" aria-label="Search beneficiaries">
           </div>
-          <select class="filter-select" id="status-filter" onchange="render()">
+          <label for="status-filter" class="sr-only">Filter by status</label>
+          <select class="filter-select" id="status-filter" aria-label="Filter by status">
             <option value="">All Statuses</option>
             <option value="active">Active</option>
             <option value="pending">Pending</option>
             <option value="inactive">Inactive</option>
           </select>
-          <select class="filter-select" id="area-filter" onchange="render()">
+          <label for="area-filter" class="sr-only">Filter by area</label>
+          <select class="filter-select" id="area-filter" aria-label="Filter by area">
             <option value="">All Areas</option>
           </select>
+        </div>
+        <div class="results-bar" id="results-bar" hidden>
+          <span id="results-count" aria-live="polite"></span>
+          <button type="button" class="btn-link" id="clear-filters" hidden>Clear filters</button>
         </div>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th class="col-hide-mobile">#</th>
-                <th>Name</th>
-                <th>Phone</th>
-                <th class="col-hide-mobile">Area</th>
-                <th class="col-hide-mobile">Family</th>
-                <th class="col-hide-mobile">Income (IQD)</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th scope="col" class="col-hide-mobile">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col" class="col-hide-mobile">Area</th>
+                <th scope="col" class="col-hide-mobile">Family</th>
+                <th scope="col" class="col-hide-mobile">Income (IQD)</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody id="table-body"></tbody>
@@ -65,7 +73,7 @@
     </div>
   </main>
 </div>
-<div id="toast-container"></div>
+<div id="toast-container" aria-live="polite" aria-atomic="true"></div>
 <script src="js/data.js"></script>
 <script src="js/shared.js"></script>
 <script src="js/beneficiaries.js"></script>

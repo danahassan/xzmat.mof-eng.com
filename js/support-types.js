@@ -9,15 +9,15 @@ function renderStats() {
   const totalValue = dists.reduce((s,d) => s + d.value, 0);
   document.getElementById('stat-grid').innerHTML = `
     <div class="stat-card">
-      <div class="stat-icon blue"><i class="fa-solid fa-list"></i></div>
+      <div class="stat-icon blue"><i class="fa-solid fa-list" aria-hidden="true"></i></div>
       <div><div class="stat-value">${types.length}</div><div class="stat-label">Support Types</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon green"><i class="fa-solid fa-boxes-stacked"></i></div>
+      <div class="stat-icon green"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i></div>
       <div><div class="stat-value">${dists.length}</div><div class="stat-label">Total Distributions</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon gold"><i class="fa-solid fa-coins"></i></div>
+      <div class="stat-icon gold"><i class="fa-solid fa-coins" aria-hidden="true"></i></div>
       <div><div class="stat-value">${(totalValue/1000000).toFixed(1)}M</div><div class="stat-label">Total Value (IQD)</div></div>
     </div>`;
 }
@@ -44,8 +44,8 @@ function renderTable() {
           <td class="text-muted col-hide-mobile">${t.desc}</td>
           <td>
             <div style="display:flex;gap:6px">
-              <button class="btn btn-ghost btn-sm btn-icon" onclick="openForm('${t.id}')"><i class="fa-solid fa-pen"></i></button>
-              <button class="btn btn-ghost btn-sm btn-icon text-danger" onclick="deleteType('${t.id}','${t.name}')"><i class="fa-solid fa-trash"></i></button>
+              <button class="btn btn-ghost btn-sm btn-icon" onclick="openForm('${t.id}')"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
+              <button class="btn btn-ghost btn-sm btn-icon text-danger" onclick="deleteType('${t.id}','${t.name}')"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
             </div>
           </td>
         </tr>`;
@@ -91,7 +91,7 @@ function openForm(id = null) {
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveType('${id||''}')"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+        <button class="btn btn-primary" onclick="saveType('${id||''}')"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save</button>
       </div>
     </div>`;
   openModal(html);

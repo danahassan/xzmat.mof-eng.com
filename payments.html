@@ -12,18 +12,18 @@
   <aside id="sidebar"></aside>
   <main id="main">
     <header class="page-header">
-      <div style="display:flex;align-items:center;gap:12px">
-        <button id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
-        <h1><i class="fa-solid fa-wallet" style="color:var(--primary);margin-right:8px"></i>Payment Methods</h1>
+      <div class="page-header__title-group">
+        <button id="menu-toggle"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+        <h1><i class="fa-solid fa-wallet" aria-hidden="true" style="color:var(--primary);margin-right:8px"></i>Payment Methods</h1>
       </div>
     </header>
     <div class="page-content">
       <!-- Mobile Wallets -->
       <div class="card" style="margin-bottom:20px">
         <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-mobile-screen"></i> Mobile Wallets</span>
+          <span class="card-title"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i> Mobile Wallets</span>
           <button class="btn btn-primary btn-sm" onclick="openWalletForm()">
-            <i class="fa-solid fa-plus"></i> Add Wallet
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> Add Wallet
           </button>
         </div>
         <div class="table-wrap">
@@ -37,9 +37,9 @@
       <!-- Bank Accounts -->
       <div class="card">
         <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-building-columns"></i> Bank Accounts</span>
+          <span class="card-title"><i class="fa-solid fa-building-columns" aria-hidden="true"></i> Bank Accounts</span>
           <button class="btn btn-primary btn-sm" onclick="openBankForm()">
-            <i class="fa-solid fa-plus"></i> Add Account
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> Add Account
           </button>
         </div>
         <div class="table-wrap">

@@ -13,8 +13,8 @@ function renderWallets() {
         <td class="text-muted">${w.notes||'—'}</td>
         <td>
           <div style="display:flex;gap:6px">
-            <button class="btn btn-ghost btn-sm btn-icon" onclick="openWalletForm('${w.id}')"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-ghost btn-sm btn-icon text-danger" onclick="deleteWallet('${w.id}','${w.provider}')"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn btn-ghost btn-sm btn-icon" onclick="openWalletForm('${w.id}')"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
+            <button class="btn btn-ghost btn-sm btn-icon text-danger" onclick="deleteWallet('${w.id}','${w.provider}')"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
           </div>
         </td>
       </tr>`).join('')
@@ -32,8 +32,8 @@ function renderBanks() {
         <td><span class="badge badge-primary">${b.currency}</span></td>
         <td>
           <div style="display:flex;gap:6px">
-            <button class="btn btn-ghost btn-sm btn-icon" onclick="openBankForm('${b.id}')"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-ghost btn-sm btn-icon text-danger" onclick="deleteBank('${b.id}','${b.bank}')"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn btn-ghost btn-sm btn-icon" onclick="openBankForm('${b.id}')"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
+            <button class="btn btn-ghost btn-sm btn-icon text-danger" onclick="deleteBank('${b.id}','${b.bank}')"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
           </div>
         </td>
       </tr>`).join('')
@@ -45,7 +45,7 @@ function openWalletForm(id = null) {
   const html = `
     <div class="modal modal-sm">
       <div class="modal-header">
-        <span class="modal-title"><i class="fa-solid fa-mobile-screen text-primary"></i> ${id?'Edit':'Add'} Wallet</span>
+        <span class="modal-title"><i class="fa-solid fa-mobile-screen text-primary" aria-hidden="true"></i> ${id?'Edit':'Add'} Wallet</span>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
       <div class="modal-body">
@@ -72,7 +72,7 @@ function openWalletForm(id = null) {
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveWallet('${id||''}')"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+        <button class="btn btn-primary" onclick="saveWallet('${id||''}')"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save</button>
       </div>
     </div>`;
   openModal(html);
@@ -102,7 +102,7 @@ function openBankForm(id = null) {
   const html = `
     <div class="modal">
       <div class="modal-header">
-        <span class="modal-title"><i class="fa-solid fa-building-columns text-primary"></i> ${id?'Edit':'Add'} Bank Account</span>
+        <span class="modal-title"><i class="fa-solid fa-building-columns text-primary" aria-hidden="true"></i> ${id?'Edit':'Add'} Bank Account</span>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
       <div class="modal-body">
@@ -140,7 +140,7 @@ function openBankForm(id = null) {
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveBank('${id||''}')"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+        <button class="btn btn-primary" onclick="saveBank('${id||''}')"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save</button>
       </div>
     </div>`;
   openModal(html);

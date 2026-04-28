@@ -15,19 +15,19 @@ function renderStats() {
   const donors = new Set(dons.filter(d => d.donor !== 'Anonymous').map(d => d.donor)).size;
   document.getElementById('stat-grid').innerHTML = `
     <div class="stat-card">
-      <div class="stat-icon green"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+      <div class="stat-icon green"><i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i></div>
       <div><div class="stat-value">${(total/1000000).toFixed(1)}M</div><div class="stat-label">Total Received (IQD)</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon blue"><i class="fa-solid fa-calendar-check"></i></div>
+      <div class="stat-icon blue"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i></div>
       <div><div class="stat-value">${(monthTotal/1000).toFixed(0)}K</div><div class="stat-label">This Month (IQD)</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon gold"><i class="fa-solid fa-users"></i></div>
+      <div class="stat-icon gold"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
       <div><div class="stat-value">${donors}</div><div class="stat-label">Unique Donors</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon purple"><i class="fa-solid fa-receipt"></i></div>
+      <div class="stat-icon purple"><i class="fa-solid fa-receipt" aria-hidden="true"></i></div>
       <div><div class="stat-value">${dons.length}</div><div class="stat-label">Total Records</div></div>
     </div>`;
 }
@@ -56,14 +56,14 @@ function renderTable() {
         <td>${fmtDate(d.date)}</td>
         <td class="fw-600">${d.donor}</td>
         <td class="text-success fw-600">${fmtIQD(d.amount)}</td>
-        <td class="col-hide-mobile"><span class="badge ${METHOD_BADGE[d.method]||'badge-muted'}"><i class="fa-solid ${METHOD_ICON[d.method]||'fa-circle'}"></i> ${d.method}</span></td>
+        <td class="col-hide-mobile"><span class="badge ${METHOD_BADGE[d.method]||'badge-muted'}"><i class="fa-solid ${METHOD_ICON[d.method]||'fa-circle'}" aria-hidden="true"></i> ${d.method}</span></td>
         <td class="text-muted col-hide-mobile" style="font-size:.8rem">${d.ref||'—'}</td>
         <td class="text-muted col-hide-mobile">${d.purpose||'—'}</td>
         <td>${statusBadge(d.status)}</td>
         <td>
           <div style="display:flex;gap:6px">
-            <button class="btn btn-ghost btn-sm btn-icon" onclick="openForm('${d.id}')"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-ghost btn-sm btn-icon text-danger" onclick="deleteDon('${d.id}','${d.donor}')"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn btn-ghost btn-sm btn-icon" onclick="openForm('${d.id}')"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
+            <button class="btn btn-ghost btn-sm btn-icon text-danger" onclick="deleteDon('${d.id}','${d.donor}')"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
           </div>
         </td>
       </tr>`).join('')
@@ -77,7 +77,7 @@ function openForm(id = null) {
   const html = `
     <div class="modal">
       <div class="modal-header">
-        <span class="modal-title"><i class="fa-solid fa-hand-holding-dollar text-primary"></i> ${id ? 'Edit' : 'Record'} Donation</span>
+        <span class="modal-title"><i class="fa-solid fa-hand-holding-dollar text-primary" aria-hidden="true"></i> ${id ? 'Edit' : 'Record'} Donation</span>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
       <div class="modal-body">
@@ -124,7 +124,7 @@ function openForm(id = null) {
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveDon('${id||''}')"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+        <button class="btn btn-primary" onclick="saveDon('${id||''}')"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save</button>
       </div>
     </div>`;
   openModal(html);

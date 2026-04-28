@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08111e">
   <title>XZMAT — Sign In</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -11,24 +12,37 @@
 <div class="login-page">
   <div class="login-box">
     <div class="login-brand">
-      <div class="logo"><i class="fa-solid fa-hand-holding-heart"></i></div>
+      <div class="logo" aria-hidden="true"><i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i></div>
       <h1>XZMAT Portal</h1>
       <p>Social Support Management System</p>
     </div>
-    <div class="login-card">
-      <div class="login-error" id="login-error"><i class="fa-solid fa-circle-xmark"></i> Invalid username or password.</div>
+    <form class="login-card" id="login-form" novalidate>
+      <div class="login-error" id="login-error" role="alert" aria-live="assertive" hidden>
+        <i class="fa-solid fa-circle-xmark" aria-hidden="true"></i>
+        <span id="login-error-msg">Invalid username or password.</span>
+      </div>
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" id="username" placeholder="Enter username" autocomplete="username">
+        <input type="text" id="username" name="username" placeholder="Enter username"
+               autocomplete="username" required autofocus>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter password" autocomplete="current-password">
+        <div class="input-with-action">
+          <input type="password" id="password" name="password" placeholder="Enter password"
+                 autocomplete="current-password" required>
+          <button type="button" class="input-action" id="toggle-password"
+                  aria-label="Show password" aria-pressed="false">
+            <i class="fa-solid fa-eye" aria-hidden="true"></i>
+          </button>
+        </div>
       </div>
-      <button class="btn btn-primary" onclick="doLogin()">
-        <i class="fa-solid fa-right-to-bracket"></i> Sign In
+      <button type="submit" class="btn btn-primary" id="login-submit">
+        <span class="btn-spinner" aria-hidden="true"></span>
+        <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+        <span class="btn-label">Sign In</span>
       </button>
-    </div>
+    </form>
     <p style="text-align:center;margin-top:20px;font-size:.8rem;color:var(--muted)">
       Sulaymaniyah · XZMAT Social Support Program
     </p>
@@ -39,22 +53,60 @@
   /* Redirect if already logged in */
   if (authGetUser()) window.location.href = 'dashboard.html';
 
-  document.getElementById('password').addEventListener('keydown', e => {
-    if (e.key === 'Enter') doLogin();
+  const form     = document.getElementById('login-form');
+  const errBox   = document.getElementById('login-error');
+  const errMsg   = document.getElementById('login-error-msg');
+  const submit   = document.getElementById('login-submit');
+  const userIn   = document.getElementById('username');
+  const passIn   = document.getElementById('password');
+  const toggle   = document.getElementById('toggle-password');
+
+  function showError(msg) {
+    errMsg.textContent = msg;
+    errBox.hidden = false;
+  }
+  function clearError() { errBox.hidden = true; }
+
+  [userIn, passIn].forEach(el => el.addEventListener('input', clearError));
+
+  toggle.addEventListener('click', () => {
+    const show = passIn.type === 'password';
+    passIn.type = show ? 'text' : 'password';
+    toggle.setAttribute('aria-pressed', show ? 'true' : 'false');
+    toggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    toggle.querySelector('i').className = show ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
   });
 
-  function doLogin() {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
-    const user = userFind(username, password);
-    if (!user) {
-      document.getElementById('login-error').style.display = 'flex';
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const username = userIn.value.trim();
+    const password = passIn.value;
+
+    if (!username || !password) {
+      showError('Please enter both username and password.');
+      (!username ? userIn : passIn).focus();
       return;
     }
-    userUpdateLogin(user.id);
-    authSetUser(user);
-    window.location.href = 'dashboard.html';
-  }
+
+    submit.setAttribute('aria-busy', 'true');
+    submit.disabled = true;
+
+    /* small delay simulates request and gives user feedback */
+    setTimeout(() => {
+      const user = userFind(username, password);
+      if (!user) {
+        showError('Invalid username or password.');
+        submit.removeAttribute('aria-busy');
+        submit.disabled = false;
+        passIn.focus();
+        passIn.select();
+        return;
+      }
+      userUpdateLogin(user.id);
+      authSetUser(user);
+      window.location.href = 'dashboard.html';
+    }, 250);
+  });
 </script>
 </body>
 </html>

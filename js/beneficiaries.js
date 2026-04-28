@@ -29,19 +29,19 @@ function renderStats() {
   const all = beneGetAll();
   document.getElementById('stat-grid').innerHTML = `
     <div class="stat-card">
-      <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+      <div class="stat-icon blue"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
       <div><div class="stat-value">${all.length}</div><div class="stat-label">Total Registered</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div>
+      <div class="stat-icon green"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>
       <div><div class="stat-value">${all.filter(b=>b.status==='active').length}</div><div class="stat-label">Active</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon gold"><i class="fa-solid fa-clock"></i></div>
+      <div class="stat-icon gold"><i class="fa-solid fa-clock" aria-hidden="true"></i></div>
       <div><div class="stat-value">${all.filter(b=>b.status==='pending').length}</div><div class="stat-label">Pending</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon purple"><i class="fa-solid fa-people-group"></i></div>
+      <div class="stat-icon purple"><i class="fa-solid fa-people-group" aria-hidden="true"></i></div>
       <div><div class="stat-value">${all.reduce((s,b)=>s+b.dependents,0)}</div><div class="stat-label">Total Dependents</div></div>
     </div>`;
 }
@@ -51,8 +51,32 @@ function render() {
   renderTable();
 }
 
+function renderResultsBar(filteredCount, totalCount) {
+  const bar       = document.getElementById('results-bar');
+  const countEl   = document.getElementById('results-count');
+  const clearBtn  = document.getElementById('clear-filters');
+  const hasFilter = !!(
+    document.getElementById('search').value ||
+    document.getElementById('status-filter').value ||
+    document.getElementById('area-filter').value
+  );
+  if (!hasFilter) { bar.hidden = true; return; }
+  bar.hidden = false;
+  countEl.textContent = `Showing ${filteredCount} of ${totalCount} beneficiaries`;
+  clearBtn.hidden = false;
+}
+
+function clearFilters() {
+  document.getElementById('search').value = '';
+  document.getElementById('status-filter').value = '';
+  document.getElementById('area-filter').value = '';
+  render();
+}
+
 function renderTable() {
   const filtered = getFiltered();
+  const totalAll = beneGetAll().length;
+  renderResultsBar(filtered.length, totalAll);
   const paged = paginate(filtered, currentPage, PER_PAGE);
   const dists = distGetAll();
 
@@ -60,6 +84,7 @@ function renderTable() {
     ? paged.items.map((b, i) => {
         const distCount = dists.filter(d => d.beneficiaryId === b.id).length;
         const canDelete = user.role === 'admin';
+        const safeName  = b.nameEn.replace(/"/g, '&quot;');
         return `<tr>
           <td class="text-muted col-hide-mobile" style="font-size:.8rem">${(currentPage-1)*PER_PAGE + i + 1}</td>
           <td>
@@ -73,18 +98,20 @@ function renderTable() {
           <td>${statusBadge(b.status)}</td>
           <td>
             <div style="display:flex;gap:6px">
-              <button class="btn btn-ghost btn-sm btn-icon" title="View profile" onclick="openProfile('${b.id}')">
-                <i class="fa-solid fa-eye"></i>
+              <button class="btn btn-ghost btn-sm btn-icon" data-action="view" data-id="${b.id}" title="View profile" aria-label="View profile of ${safeName}">
+                <i class="fa-solid fa-eye" aria-hidden="true"></i>
               </button>
-              <button class="btn btn-ghost btn-sm btn-icon" title="Edit" onclick="openForm('${b.id}')">
-                <i class="fa-solid fa-pen"></i>
+              <button class="btn btn-ghost btn-sm btn-icon" data-action="edit" data-id="${b.id}" title="Edit" aria-label="Edit ${safeName}">
+                <i class="fa-solid fa-pen" aria-hidden="true"></i>
               </button>
-              ${canDelete ? `<button class="btn btn-ghost btn-sm btn-icon text-danger" title="Delete" onclick="deleteBene('${b.id}','${b.nameEn}')"><i class="fa-solid fa-trash"></i></button>` : ''}
+              ${canDelete ? `<button class="btn btn-ghost btn-sm btn-icon text-danger" data-action="delete" data-id="${b.id}" data-name="${safeName}" title="Delete" aria-label="Delete ${safeName}"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>` : ''}
             </div>
           </td>
         </tr>`;
       }).join('')
-    : emptyRow(8);
+    : emptyRow(8, filtered.length === 0 && totalAll > 0
+        ? 'No beneficiaries match your filters.'
+        : 'No beneficiaries registered yet.');
 
   renderPagination(document.getElementById('pagination'), paged, p => { currentPage = p; renderTable(); });
 }
@@ -122,7 +149,7 @@ function openProfile(id) {
   const html = `
     <div class="modal modal-lg">
       <div class="modal-header">
-        <span class="modal-title"><i class="fa-solid fa-id-card text-primary"></i> ${b.nameEn}</span>
+        <span class="modal-title"><i class="fa-solid fa-id-card text-primary" aria-hidden="true"></i> ${b.nameEn}</span>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
       <div class="modal-body">
@@ -184,7 +211,7 @@ function openProfile(id) {
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="closeModal()">Close</button>
-        <button class="btn btn-primary" onclick="closeModal();openForm('${b.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
+        <button class="btn btn-primary" onclick="closeModal();openForm('${b.id}')"><i class="fa-solid fa-pen" aria-hidden="true"></i> Edit</button>
       </div>
     </div>`;
   openModal(html);
@@ -204,7 +231,7 @@ function openForm(id = null) {
   const html = `
     <div class="modal modal-lg">
       <div class="modal-header">
-        <span class="modal-title"><i class="fa-solid fa-user-plus text-primary"></i> ${title}</span>
+        <span class="modal-title"><i class="fa-solid fa-user-plus text-primary" aria-hidden="true"></i> ${title}</span>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
       <div class="modal-body">
@@ -312,7 +339,7 @@ function openForm(id = null) {
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
         <button class="btn btn-primary" onclick="saveBene('${id||''}')">
-          <i class="fa-solid fa-floppy-disk"></i> Save
+          <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save
         </button>
       </div>
     </div>`;
@@ -353,4 +380,25 @@ function exportExcel() {
 }
 
 renderStats();
-renderTable();
+
+/* initial loading skeleton */
+document.getElementById('table-body').innerHTML = skeletonRows(8, 6);
+requestAnimationFrame(renderTable);
+
+/* event wiring (replaces inline onclick / oninput) */
+document.getElementById('btn-add').addEventListener('click', () => openForm());
+document.getElementById('btn-export').addEventListener('click', () => exportExcel());
+document.getElementById('search').addEventListener('input', debounce(render, 200));
+document.getElementById('status-filter').addEventListener('change', render);
+document.getElementById('area-filter').addEventListener('change', render);
+document.getElementById('clear-filters').addEventListener('click', clearFilters);
+
+/* delegated row actions */
+document.getElementById('table-body').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-action]');
+  if (!btn) return;
+  const id = btn.dataset.id;
+  if (btn.dataset.action === 'view')   openProfile(id);
+  if (btn.dataset.action === 'edit')   openForm(id);
+  if (btn.dataset.action === 'delete') deleteBene(id, btn.dataset.name);
+});

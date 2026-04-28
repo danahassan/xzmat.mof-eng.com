@@ -37,19 +37,19 @@ function renderStats() {
   const monthTotal = thisMonth.reduce((s,d) => s + d.value, 0);
   document.getElementById('stat-grid').innerHTML = `
     <div class="stat-card">
-      <div class="stat-icon blue"><i class="fa-solid fa-boxes-stacked"></i></div>
+      <div class="stat-icon blue"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i></div>
       <div><div class="stat-value">${dists.length}</div><div class="stat-label">Total Records</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon green"><i class="fa-solid fa-calendar-check"></i></div>
+      <div class="stat-icon green"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i></div>
       <div><div class="stat-value">${thisMonth.length}</div><div class="stat-label">This Month</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon gold"><i class="fa-solid fa-coins"></i></div>
+      <div class="stat-icon gold"><i class="fa-solid fa-coins" aria-hidden="true"></i></div>
       <div><div class="stat-value">${(total/1000000).toFixed(1)}M</div><div class="stat-label">Total Value (IQD)</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon purple"><i class="fa-solid fa-calendar-week"></i></div>
+      <div class="stat-icon purple"><i class="fa-solid fa-calendar-week" aria-hidden="true"></i></div>
       <div><div class="stat-value">${(monthTotal/1000).toFixed(0)}K</div><div class="stat-label">This Month (IQD)</div></div>
     </div>`;
 }
@@ -80,8 +80,8 @@ function renderTable() {
           <td class="text-muted col-hide-mobile" style="font-size:.8rem">${u ? u.name : '—'}</td>
           <td>
             <div style="display:flex;gap:6px">
-              <button class="btn btn-ghost btn-sm btn-icon" onclick="openForm('${d.id}')"><i class="fa-solid fa-pen"></i></button>
-              <button class="btn btn-ghost btn-sm btn-icon text-danger" onclick="deleteDist('${d.id}')"><i class="fa-solid fa-trash"></i></button>
+              <button class="btn btn-ghost btn-sm btn-icon" onclick="openForm('${d.id}')"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
+              <button class="btn btn-ghost btn-sm btn-icon text-danger" onclick="deleteDist('${d.id}')"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
             </div>
           </td>
         </tr>`;
@@ -99,7 +99,7 @@ function openForm(id = null) {
   const html = `
     <div class="modal">
       <div class="modal-header">
-        <span class="modal-title"><i class="fa-solid fa-boxes-stacked text-primary"></i> ${id ? 'Edit' : 'Record'} Distribution</span>
+        <span class="modal-title"><i class="fa-solid fa-boxes-stacked text-primary" aria-hidden="true"></i> ${id ? 'Edit' : 'Record'} Distribution</span>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
       <div class="modal-body">
@@ -146,7 +146,7 @@ function openForm(id = null) {
       </div>
       <div class="modal-footer">
         <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveDist('${id||''}')"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+        <button class="btn btn-primary" onclick="saveDist('${id||''}')"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save</button>
       </div>
     </div>`;
   openModal(html);

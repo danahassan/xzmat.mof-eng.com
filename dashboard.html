@@ -13,9 +13,9 @@
   <aside id="sidebar"></aside>
   <main id="main">
     <header class="page-header">
-      <div style="display:flex;align-items:center;gap:12px">
-        <button id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
-        <h1><i class="fa-solid fa-gauge" style="color:var(--primary);margin-right:8px"></i>Dashboard</h1>
+      <div class="page-header__title-group">
+        <button id="menu-toggle"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+        <h1><i class="fa-solid fa-gauge" aria-hidden="true" style="color:var(--primary);margin-right:8px"></i>Dashboard</h1>
       </div>
       <div class="header-actions" id="header-date"></div>
     </header>
@@ -24,7 +24,7 @@
       <div class="two-col" style="gap:20px">
         <div class="card">
           <div class="card-header">
-            <span class="card-title"><i class="fa-solid fa-users"></i> Recent Beneficiaries</span>
+            <span class="card-title"><i class="fa-solid fa-users" aria-hidden="true"></i> Recent Beneficiaries</span>
             <a href="beneficiaries.html" class="btn btn-ghost btn-sm">View All</a>
           </div>
           <div class="table-wrap">
@@ -36,7 +36,7 @@
         </div>
         <div class="card">
           <div class="card-header">
-            <span class="card-title"><i class="fa-solid fa-hand-holding-dollar"></i> Recent Donations</span>
+            <span class="card-title"><i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i> Recent Donations</span>
             <a href="donations.html" class="btn btn-ghost btn-sm">View All</a>
           </div>
           <div class="table-wrap">
@@ -49,7 +49,7 @@
       </div>
       <div class="card" style="margin-top:20px">
         <div class="card-header">
-          <span class="card-title"><i class="fa-solid fa-chart-bar"></i> Monthly Distributions</span>
+          <span class="card-title"><i class="fa-solid fa-chart-bar" aria-hidden="true"></i> Monthly Distributions</span>
         </div>
         <div class="chart-wrap"><canvas id="dist-chart"></canvas></div>
       </div>

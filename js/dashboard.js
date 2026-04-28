@@ -17,19 +17,19 @@ const activeCount    = benes.filter(b => b.status === 'active').length;
 /* ── Stat Cards ─────────────────────────── */
 document.getElementById('stat-grid').innerHTML = `
   <div class="stat-card">
-    <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+    <div class="stat-icon blue"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
     <div><div class="stat-value">${benes.length}</div><div class="stat-label">Total Beneficiaries</div></div>
   </div>
   <div class="stat-card">
-    <div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="stat-icon green"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>
     <div><div class="stat-value">${activeCount}</div><div class="stat-label">Active Cases</div></div>
   </div>
   <div class="stat-card">
-    <div class="stat-icon gold"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+    <div class="stat-icon gold"><i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i></div>
     <div><div class="stat-value">${(totalDonations/1000000).toFixed(1)}M</div><div class="stat-label">Total Donations (IQD)</div></div>
   </div>
   <div class="stat-card">
-    <div class="stat-icon purple"><i class="fa-solid fa-boxes-stacked"></i></div>
+    <div class="stat-icon purple"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i></div>
     <div><div class="stat-value">${dists.length}</div><div class="stat-label">Distributions</div></div>
   </div>
 `;
