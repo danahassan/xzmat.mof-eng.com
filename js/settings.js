@@ -44,31 +44,68 @@ function escapeHtml(s) {
 /* Add / edit user modal */
 function openUserForm(id) {
   const isEdit = !!id;
-  document.getElementById('user-modal-title').textContent = isEdit ? 'Edit User' : 'Add User';
-  document.getElementById('u-id').value       = id || '';
-  document.getElementById('u-name').value     = '';
-  document.getElementById('u-username').value = '';
-  document.getElementById('u-role').value     = 'supervisor';
-  document.getElementById('u-password').value = '';
-  const pwLabel = document.getElementById('u-password-label');
-  const pwHint  = document.getElementById('u-password-hint');
-  const pwInput = document.getElementById('u-password');
+  const u = isEdit ? userGet(id) : { name: '', username: '', role: 'supervisor' };
+  if (isEdit && !u) { toast('User not found.', 'error'); return; }
 
-  if (isEdit) {
-    const u = userGet(id);
-    if (!u) { toast('User not found.', 'error'); return; }
-    document.getElementById('u-name').value     = u.name;
-    document.getElementById('u-username').value = u.username;
-    document.getElementById('u-role').value     = u.role;
-    pwLabel.textContent = 'New Password';
-    pwHint.textContent  = 'Leave blank to keep current password.';
-    pwInput.required    = false;
-  } else {
-    pwLabel.textContent = 'Password *';
-    pwHint.textContent  = 'At least 6 characters.';
-    pwInput.required    = true;
-  }
-  openModal('user-modal');
+  const pwLabel = isEdit ? 'New Password' : 'Password *';
+  const pwHint  = isEdit ? 'Leave blank to keep current password.' : 'At least 6 characters.';
+
+  const html = `
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title"><i class="fa-solid fa-user-${isEdit ? 'pen' : 'plus'}" aria-hidden="true"></i> ${isEdit ? 'Edit User' : 'Add User'}</span>
+        <button class="modal-close" type="button" onclick="closeModal()">&times;</button>
+      </div>
+      <form id="user-form" onsubmit="event.preventDefault(); saveUser();">
+        <div class="modal-body">
+          <input type="hidden" id="u-id" value="${isEdit ? u.id : ''}">
+          <div class="form-group">
+            <label for="u-name">Full Name *</label>
+            <input type="text" id="u-name" required autocomplete="name" value="${escapeHtml(u.name)}">
+          </div>
+          <div class="form-group">
+            <label for="u-username">Username *</label>
+            <input type="text" id="u-username" required autocomplete="username" pattern="[a-zA-Z0-9_.\\-]{3,}" title="Letters, numbers, dot, dash, underscore — min 3 chars" value="${escapeHtml(u.username)}">
+          </div>
+          <div class="form-group">
+            <label for="u-role">Role *</label>
+            <select id="u-role" required>
+              <option value="supervisor"${u.role === 'supervisor' ? ' selected' : ''}>Supervisor</option>
+              <option value="admin"${u.role === 'admin' ? ' selected' : ''}>Administrator</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="u-password">${pwLabel}</label>
+            <div class="input-with-action">
+              <input type="password" id="u-password" autocomplete="new-password" minlength="6"${isEdit ? '' : ' required'}>
+              <button type="button" class="input-action" id="u-password-toggle" aria-label="Show password" aria-pressed="false">
+                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <small class="text-muted">${pwHint}</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save
+          </button>
+        </div>
+      </form>
+    </div>`;
+
+  openModal(html);
+
+  /* Show/hide password toggle */
+  document.getElementById('u-password-toggle').addEventListener('click', () => {
+    const input = document.getElementById('u-password');
+    const btn   = document.getElementById('u-password-toggle');
+    const show  = input.type === 'password';
+    input.type  = show ? 'text' : 'password';
+    btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+    btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    btn.querySelector('i').className = show ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+  });
 }
 
 function saveUser() {
@@ -81,7 +118,7 @@ function saveUser() {
   };
   try {
     userSave(data);
-    closeModal('user-modal');
+    closeModal();
     toast(data.id ? 'User updated.' : 'User added.');
     renderUsers();
   } catch (err) {
@@ -115,17 +152,6 @@ document.getElementById('user-list').addEventListener('click', (e) => {
   const { action, id } = btn.dataset;
   if (action === 'edit')   openUserForm(id);
   if (action === 'delete') deleteUser(id);
-});
-
-/* Show/hide password toggle */
-document.getElementById('u-password-toggle').addEventListener('click', () => {
-  const input = document.getElementById('u-password');
-  const btn   = document.getElementById('u-password-toggle');
-  const show  = input.type === 'password';
-  input.type  = show ? 'text' : 'password';
-  btn.setAttribute('aria-pressed', show ? 'true' : 'false');
-  btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
-  btn.querySelector('i').className = show ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
 });
 
 function resetData() {
