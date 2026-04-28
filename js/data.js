@@ -185,6 +185,31 @@ function distDelete(id) {
 function donGetAll()  { return dbGet().donations; }
 function donGet(id)   { return dbGet().donations.find(d => d.id === id) || null; }
 
+/* unique, sorted list of past donor names (for selectors / suggestions) */
+function donGetDonors() {
+  const names = donGetAll().map(d => (d.donor || '').trim()).filter(Boolean);
+  return [...new Set(names)].sort((a, b) => a.localeCompare(b));
+}
+
+/* Support pool: money donations + in-kind ('other') donations,
+   minus the value of all distributions made.
+   Treats donations missing a `kind` field as 'money' (back-compat). */
+function supportBalance(excludeDistId) {
+  const dons  = donGetAll().filter(d => (d.status || 'confirmed') !== 'cancelled');
+  const dists = distGetAll().filter(d => !excludeDistId || d.id !== excludeDistId);
+  const totalMoney = dons.filter(d => (d.kind || 'money') === 'money').reduce((s,d) => s + (+d.amount || 0), 0);
+  const totalOther = dons.filter(d => d.kind === 'other').reduce((s,d) => s + (+d.amount || 0), 0);
+  const totalReceived    = totalMoney + totalOther;
+  const totalDistributed = dists.reduce((s,d) => s + (+d.value || 0), 0);
+  return {
+    totalMoney,
+    totalOther,
+    totalReceived,
+    totalDistributed,
+    available: totalReceived - totalDistributed,
+  };
+}
+
 function donSave(data) {
   const db = dbGet();
   const idx = db.donations.findIndex(d => d.id === data.id);

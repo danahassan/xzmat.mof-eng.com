@@ -35,18 +35,19 @@ function renderStats() {
   const total = dists.reduce((s,d) => s + d.value, 0);
   const thisMonth = dists.filter(d => d.date.slice(0,7) === new Date().toISOString().slice(0,7));
   const monthTotal = thisMonth.reduce((s,d) => s + d.value, 0);
+  const bal = supportBalance();
   document.getElementById('stat-grid').innerHTML = `
     <div class="stat-card">
       <div class="stat-icon blue"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i></div>
       <div><div class="stat-value">${dists.length}</div><div class="stat-label">Total Records</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon green"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i></div>
-      <div><div class="stat-value">${thisMonth.length}</div><div class="stat-label">This Month</div></div>
+      <div class="stat-icon gold"><i class="fa-solid fa-coins" aria-hidden="true"></i></div>
+      <div><div class="stat-value">${(total/1000000).toFixed(1)}M</div><div class="stat-label">Distributed (IQD)</div></div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon gold"><i class="fa-solid fa-coins" aria-hidden="true"></i></div>
-      <div><div class="stat-value">${(total/1000000).toFixed(1)}M</div><div class="stat-label">Total Value (IQD)</div></div>
+      <div class="stat-icon ${bal.available < 0 ? 'red' : 'green'}"><i class="fa-solid fa-wallet" aria-hidden="true"></i></div>
+      <div><div class="stat-value">${(bal.available/1000000).toFixed(1)}M</div><div class="stat-label">Available Balance (IQD)</div></div>
     </div>
     <div class="stat-card">
       <div class="stat-icon purple"><i class="fa-solid fa-calendar-week" aria-hidden="true"></i></div>
@@ -136,7 +137,10 @@ function openForm(id = null) {
           </div>
           <div class="form-group">
             <label>Donor / Source</label>
-            <input type="text" name="donor" value="${d.donor||''}">
+            <input type="text" name="donor" value="${d.donor||''}" list="dist-donor-suggestions" placeholder="Pick from list or type a new name">
+            <datalist id="dist-donor-suggestions">
+              ${donGetDonors().map(n => `<option value="${n}"></option>`).join('')}
+            </datalist>
           </div>
           <div class="form-group">
             <label>Notes</label>
@@ -168,6 +172,15 @@ function saveDist(id) {
   data.qty   = +data.qty;
   data.value = +data.value;
   if (!data.beneficiaryId || !data.supportTypeId || !data.date) { toast('Please fill all required fields.', 'error'); return; }
+
+  /* Enforce support pool balance (exclude current record when editing) */
+  const bal = supportBalance(id || null);
+  if (data.value > bal.available) {
+    const short = data.value - bal.available;
+    toast(`Insufficient support balance. Available: ${fmtIQD(bal.available)} — short by ${fmtIQD(short)}.`, 'error');
+    return;
+  }
+
   distSave(data);
   closeModal();
   toast(id ? 'Distribution updated.' : 'Distribution recorded.');

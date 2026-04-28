@@ -11,8 +11,8 @@ const benes = beneGetAll();
 const dists = distGetAll();
 const dons  = donGetAll();
 
-const totalDonations = dons.reduce((s, d) => s + d.amount, 0);
-const activeCount    = benes.filter(b => b.status === 'active').length;
+const bal           = supportBalance();
+const activeCount   = benes.filter(b => b.status === 'active').length;
 
 /* ── Stat Cards ─────────────────────────── */
 document.getElementById('stat-grid').innerHTML = `
@@ -26,7 +26,11 @@ document.getElementById('stat-grid').innerHTML = `
   </div>
   <div class="stat-card">
     <div class="stat-icon gold"><i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i></div>
-    <div><div class="stat-value">${(totalDonations/1000000).toFixed(1)}M</div><div class="stat-label">Total Donations (IQD)</div></div>
+    <div><div class="stat-value">${(bal.totalReceived/1000000).toFixed(1)}M</div><div class="stat-label">Total Support Received (IQD)</div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon ${bal.available < 0 ? 'red' : 'green'}"><i class="fa-solid fa-wallet" aria-hidden="true"></i></div>
+    <div><div class="stat-value">${(bal.available/1000000).toFixed(1)}M</div><div class="stat-label">Available Balance (IQD)</div></div>
   </div>
   <div class="stat-card">
     <div class="stat-icon purple"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i></div>
