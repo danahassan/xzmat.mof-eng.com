@@ -285,6 +285,7 @@ textarea:focus-visible {
 .btn-ghost     { background: transparent; color: var(--muted); border: 1px solid var(--border); }
 .btn-ghost:hover     { color: var(--text); border-color: var(--muted); }
 .btn-sm        { padding: 5px 11px; font-size: .8rem; }
+.btn-block     { width: 100%; justify-content: center; }
 .btn-icon      { padding: 7px 10px; }
 
 .btn:disabled,
@@ -760,6 +761,8 @@ select option { background: var(--surface2); }
   gap: 12px;
 }
 
+.page-header__icon { color: var(--primary); margin-right: 8px; }
+
 .divider {
   border: none;
   border-top: 1px solid var(--border);
@@ -876,7 +879,28 @@ select option { background: var(--surface2); }
 
 .login-card {
   background: var(--surface);
-  border: 1flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+
+.login-card .btn-primary {
+  width: 100%;
+  justify-content: center;
+  padding: 11px;
+  font-size: .95rem;
+  margin-top: 4px;
+}
+
+.login-error {
+  background: rgba(229,57,53,.1);
+  border: 1px solid rgba(229,57,53,.3);
+  color: var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: .85rem;
+  margin-bottom: 16px;
+  display: flex;
   align-items: center;
   gap: 8px;
 }
@@ -897,28 +921,7 @@ select option { background: var(--surface2); }
   border-radius: var(--radius-sm);
   font-size: .9rem;
 }
-.input-action:hover { color: var(--text);   border-radius: var(--radius);
-  padding: 32px;
-}
-
-.login-card .btn-primary {
-  width: 100%;
-  justify-content: center;
-  padding: 11px;
-  font-size: .95rem;
-  margin-top: 4px;
-}
-
-.login-error {
-  background: rgba(229,57,53,.1);
-  border: 1px solid rgba(229,57,53,.3);
-  color: var(--danger);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  font-size: .85rem;
-  margin-bottom: 16px;
-  display: none;
-}
+.input-action:hover { color: var(--text); }
 
 /* ════════════════════════════════════════
    DASHBOARD CHART
@@ -1070,4 +1073,142 @@ select option { background: var(--surface2); }
   /* Toast full-width */
   #toast-container { right: 10px; left: 10px; bottom: 14px; }
   .toast { min-width: unset; width: 100%; max-width: 100%; }
+}
+
+/* ════════════════════════════════════════
+   MOBILE POLISH (touch, safe-area, scroll)
+   ════════════════════════════════════════ */
+
+/* Safe-area insets (iPhone X+ notch / home bar) */
+@supports (padding: max(0px)) {
+  #sidebar              { padding-top: env(safe-area-inset-top); }
+  #sidebar .sidebar-footer { padding-bottom: max(14px, env(safe-area-inset-bottom)); }
+  .page-header          { padding-top: env(safe-area-inset-top); }
+  #toast-container      { bottom: max(24px, env(safe-area-inset-bottom)); }
+  .modal-backdrop       { padding-bottom: env(safe-area-inset-bottom); }
+}
+
+/* Smooth momentum scrolling for any scroll containers */
+.table-wrap, .modal-body, #sidebar nav, .tab-nav {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Sticky table header when vertical scrolling inside table-wrap */
+.table-wrap thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Horizontal-scroll hint shadow on table-wrap */
+.table-wrap {
+  background:
+    linear-gradient(to right, var(--surface) 30%, rgba(15,29,46,0)) left center / 24px 100% no-repeat local,
+    linear-gradient(to left,  var(--surface) 30%, rgba(15,29,46,0)) right center / 24px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(0,0,0,.4), transparent) left center / 14px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.4), transparent) right center / 14px 100% no-repeat scroll;
+}
+
+/* Prevent iOS Safari from auto-zooming on input focus (needs >=16px) */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  input[type="password"],
+  input[type="search"],
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  /* Larger tap targets */
+  .btn          { min-height: 44px; padding: 10px 16px; }
+  .btn-sm       { min-height: 36px; padding: 7px 12px; }
+  .btn-icon     { min-height: 40px; min-width: 40px; padding: 8px 10px; }
+  .modal-close  { min-height: 40px; min-width: 40px; font-size: 1.25rem; }
+  #menu-toggle  { min-height: 44px; min-width: 44px; }
+
+  /* Tap-friendly nav links */
+  #sidebar nav a { padding: 12px 20px; font-size: .95rem; }
+  #sidebar nav a i { font-size: 1.05rem; }
+
+  /* Page header: shrink h1 icon */
+  .page-header h1 i { font-size: .9em; }
+
+  /* Cards have soft shadow + slightly raised look */
+  .card { box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+
+  /* Tables: bigger hit area on rows, action buttons line up */
+  tbody td { padding: 14px 12px; }
+  thead th { padding: 12px 10px; font-size: .72rem; }
+
+  /* Form spacing */
+  .form-group { margin-bottom: 14px; }
+  label       { font-size: .85rem; margin-bottom: 8px; }
+
+  /* Modal — sticky footer always visible */
+  .modal-footer {
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    z-index: 2;
+  }
+
+  /* Toolbar: compact, search keeps icon spacing */
+  .toolbar { gap: 10px; }
+
+  /* Pagination buttons larger */
+  .page-btn { width: 40px; height: 40px; font-size: .9rem; }
+
+  /* Login fits small screens */
+  .login-card  { padding: 22px 18px; }
+  .login-brand { margin-bottom: 22px; }
+  .login-brand .logo { width: 52px; height: 52px; font-size: 1.5rem; }
+  .login-brand h1    { font-size: 1.2rem; }
+}
+
+/* ── Floating Action Button (mobile primary action) ── */
+.fab {
+  position: fixed;
+  right: 18px;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 14px rgba(29,140,248,.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 150;
+  transition: transform .15s, background .15s;
+}
+.fab:hover, .fab:focus-visible { background: var(--primary-dim); transform: scale(1.05); }
+
+@media (max-width: 640px) {
+  .fab { display: flex; }
+  /* Ensure list pages have room for the FAB above content */
+  .page-content { padding-bottom: 96px; }
+}
+
+/* ── Card list: alternative compact layout for small data tables ── */
+.card-list {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Reduced motion — disable animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

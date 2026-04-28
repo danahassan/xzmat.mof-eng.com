@@ -387,6 +387,7 @@ requestAnimationFrame(renderTable);
 
 /* event wiring (replaces inline onclick / oninput) */
 document.getElementById('btn-add').addEventListener('click', () => openForm());
+document.getElementById('fab-add')?.addEventListener('click', () => openForm());
 document.getElementById('btn-export').addEventListener('click', () => exportExcel());
 document.getElementById('search').addEventListener('input', debounce(render, 200));
 document.getElementById('status-filter').addEventListener('change', render);
