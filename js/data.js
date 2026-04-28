@@ -104,11 +104,60 @@ function dbSave(db) {
 /* ─── Users ────────────────────────────── */
 
 function usersGetAll()          { return dbGet().users; }
+function userGet(id)            { return dbGet().users.find(u => u.id === id) || null; }
 function userFind(username, pw) { return dbGet().users.find(u => u.username === username && u.password === pw) || null; }
 function userUpdateLogin(id)    {
   const db = dbGet();
   const u = db.users.find(u => u.id === id);
   if (u) { u.lastLogin = new Date().toISOString().slice(0,10); dbSave(db); }
+}
+
+function userSave(data) {
+  const db = dbGet();
+  const username = (data.username || '').trim().toLowerCase();
+  if (!username) throw new Error('Username is required.');
+  if (!data.name || !data.name.trim()) throw new Error('Full name is required.');
+  if (!['admin','supervisor'].includes(data.role)) throw new Error('Invalid role.');
+
+  // unique username (case-insensitive), excluding self
+  const dup = db.users.find(u => u.username.toLowerCase() === username && u.id !== data.id);
+  if (dup) throw new Error('Username already exists.');
+
+  if (data.id) {
+    const u = db.users.find(x => x.id === data.id);
+    if (!u) throw new Error('User not found.');
+    u.username = username;
+    u.name     = data.name.trim();
+    u.role     = data.role;
+    if (data.password) {
+      if (data.password.length < 6) throw new Error('Password must be at least 6 characters.');
+      u.password = data.password;
+    }
+  } else {
+    if (!data.password || data.password.length < 6) throw new Error('Password must be at least 6 characters.');
+    db.users.push({
+      id: 'u' + Date.now(),
+      username,
+      name: data.name.trim(),
+      role: data.role,
+      password: data.password,
+      lastLogin: '',
+    });
+  }
+  dbSave(db);
+}
+
+function userDelete(id) {
+  const db = dbGet();
+  const target = db.users.find(u => u.id === id);
+  if (!target) return;
+  // Don't allow deleting the last admin
+  const adminsLeft = db.users.filter(u => u.role === 'admin' && u.id !== id).length;
+  if (target.role === 'admin' && adminsLeft === 0) {
+    throw new Error('Cannot delete the last administrator.');
+  }
+  db.users = db.users.filter(u => u.id !== id);
+  dbSave(db);
 }
 
 /* ─── Beneficiaries ────────────────────── */

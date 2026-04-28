@@ -286,6 +286,44 @@ textarea:focus-visible {
 .btn-ghost:hover     { color: var(--text); border-color: var(--muted); }
 .btn-sm        { padding: 5px 11px; font-size: .8rem; }
 .btn-block     { width: 100%; justify-content: center; }
+
+/* User row (settings page) */
+.user-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.user-row:last-child { border-bottom: none; }
+.user-row__main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+.user-row__info { min-width: 0; }
+.user-row__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.avatar {
+  width: 36px;
+  height: 36px;
+  background: var(--primary-dim);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .85rem;
+  font-weight: 600;
+  color: #fff;
+  flex-shrink: 0;
+}
 .btn-icon      { padding: 7px 10px; }
 
 .btn:disabled,
